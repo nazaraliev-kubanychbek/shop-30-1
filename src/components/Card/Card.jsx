@@ -1,8 +1,16 @@
 import './card.scss';
+import { Link } from 'react-router-dom';
+import { addCart } from '../../redux/reducer';
+import { useDispatch } from 'react-redux';
 
 const Card = ({ item }) => {
+    const dispatch = useDispatch();
     return (
         <div className="card">
+            <Link to={`/product/${item.id}`} style={{
+                textDecoration: 'none',
+                color: '#000'
+            }}>
             <img className="card-img" src={item.image} alt="" />
             <h3 className="card-title">{
                 item.title.length > 30
@@ -15,9 +23,12 @@ const Card = ({ item }) => {
                     : item.description
             }</p>
             <p className="card-text">{item.category}</p>
+            </Link>
             <div className="card-block">
                 <p>${item.price}</p>
-                <button>buy</button>
+                <button onClick={()=>{
+                    dispatch(addCart(item));
+                }}>buy</button>
             </div>
         </div>
     );
